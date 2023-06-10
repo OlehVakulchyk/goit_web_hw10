@@ -1,16 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "quotes/base.html" %}
+{% load extract %}
 
-<head>
-    <meta charset="UTF-8" />
-    <title>Organizer</title>
-    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css" />
-</head>
+{% block content %}
 
-<body>
-    <main class="container">
-        <h1>Main page</h1>
-    </main>
-</body>
+    <div class="row">
+                <div class="col-md-8">
+                    {% for quote in quotes %}
+                    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+                        <span class="text" itemprop="text">
+                            {{ quote.content }}
+                        </span>
+                        <span>by <small class="author" itemprop="author">{{ quote.author|author }}</small>
+                            <a href="{% url 'quotes:author_about' d=quote.author %}">(about)</a>
+                        </span>
+                        <div class="tags">
+                            Tags:
+                            {% for tag in quote.tags %}        
+                            <a class="tag" href="/tag/{{tag}}">{{ tag }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <nav>
+                        <ul class="pager">
+                        
+                            <li class="previous">
+                                <a class="{% if not quotes.has_previous %} disabled {% endif %}"
+                                    href="{% if quotes.has_previous %} {% url 'quotes:main_paginate' quotes.previous_page_number %} {% else %} # {% endif %}">
+                                    <span aria-hidden="true">←</span> 
+                                    Previous
+                                </a>
+                            </li>
+                        
+                        
+                            <li class="next">
+                                <a class="{% if not quotes.has_next %} disabled {% endif %}"
+                                    href="{% if quotes.has_next %} {% url 'quotes:main_paginate' quotes.next_page_number %} {% else %} # {% endif %}">
+                                    Next
+                                    <span aria-hidden="true">→</span>
+                                </a>
+                            </li>
+                        
+                        </ul>
+                    </nav>
+                </div>
+                
+        </div>
 
-</html>
+{% endblock %}

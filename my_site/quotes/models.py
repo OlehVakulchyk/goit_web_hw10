@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models #noqa
 
 # Create your models here.
 
@@ -13,14 +13,15 @@ class Author(models.Model):
         return self.fullname
 
 class Tag(models.Model):
-    Tag = models.CharField(max_length=20, null=False, unique=True)
-
+    name = models.CharField(max_length=50, null=False, unique=True)
+    
     def __str__(self):
         return self.name
 
 class Quote(models.Model):
     quote = models.TextField()
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE,
+                               default=None, null=True)
     tags = models.ManyToManyField(Tag)    
     created_at = models.DateTimeField(auto_now_add=True)
 

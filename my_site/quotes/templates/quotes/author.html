@@ -2,25 +2,31 @@
 
 {% block content %}
 
-<form method="POST" action="{% url 'quotes:quote' %}">
+<form method="POST" action="{% url 'quotes:author' %}">
     {% csrf_token %}
     <div style="padding: 10px">
-        <label> Quoter:
-            {{ form.quote }}
+        <label> Fullname:
+            {{ form.fullname }}
         </label>
         <span>{{ form.errors.name }}</span>
     </div>
     <div style="padding: 10px">
-        <label> Author:
-            {{ form.author }}
+        <label> born date :
+            {{ form.born_date }}
         </label>
         <span>{{ form.errors.description }}</span>
     </div>
     <div style="padding: 10px">
-        <label> Select tags:
-            {{ form.tags }}
+        <label> born_location:
+            {{ form.born_location }}
         </label>
-        <span>{{ form.errors.tags }}</span>
+        <span>{{ form.errors.description }}</span>
+    </div>
+    <div style="padding: 10px">
+        <label> description:
+            {{ form.description }}
+        </label>
+        <span>{{ form.errors.description }}</span>
     </div>
     <div class="grid">
         <button type="submit">Submit</button>

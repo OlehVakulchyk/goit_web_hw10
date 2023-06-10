@@ -1,5 +1,5 @@
 from django.forms import ModelForm, CharField, TextInput, \
-    ModelMultipleChoiceField, SelectMultiple
+    ModelMultipleChoiceField, SelectMultiple, ModelChoiceField, Select
 from .models import Tag, Quote, Author
 
 
@@ -14,7 +14,7 @@ class TagForm(ModelForm):
 
 class QuoteForm(ModelForm):
     quote = CharField(min_length=10, max_length=250, required=True, widget=TextInput())
-    author = CharField(min_length=5, max_length=50, required=True, widget=TextInput())
+    author = ModelChoiceField(queryset=Author.objects.all().order_by('fullname'), required=True, widget=Select())
     tags = ModelMultipleChoiceField(queryset=Tag.objects.all().order_by("name"), required=True, widget=SelectMultiple())
 
     class Meta:
@@ -24,10 +24,10 @@ class QuoteForm(ModelForm):
 
 class AuthorForm(ModelForm):
     fullname = CharField(max_length=50, widget=TextInput())
-    date_born = CharField(max_length=50, widget=TextInput())
+    born_date = CharField(max_length=50, widget=TextInput())
     born_location = CharField(max_length=150, widget=TextInput())
     description = CharField(widget=TextInput())
 
     class Meta:
         model = Author
-        fields = ["fullname", "date_born", "born_location", "description"]
+        fields = ["fullname", "born_date", "born_location", "description"]
