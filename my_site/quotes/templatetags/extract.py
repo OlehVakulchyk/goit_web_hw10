@@ -1,22 +1,26 @@
-# from bson.objectid import ObjectId
-from django import template
+"""
+for mongodb
+"""
 
-from ..utils import get_mongodb
+# # from bson.objectid import ObjectId
+# from django import template
 
-from quotes.models import Quote, Tag, Author
+# from ..utils import get_mongodb
 
-register = template.Library()
+# from quotes.models import Quote, Tag, Author
 
-
-def get_author(id_):
-    db = get_mongodb()
-#    author = db.author.find_one({'_id':ObjectId(id_)})
-    # author = Author.objects.get(id=id_)
-    author = db.author.find_one({'_id':id_})
-    if author: 
-       return author['fullname']
-    else:
-        print(1111111111111)
+# register = template.Library()
 
 
-register.filter('author', get_author)
+# def get_author(id_):
+#     db = get_mongodb()
+# #    author = db.author.find_one({'_id':ObjectId(id_)})
+# #    author = Author.objects.get(id=id_)
+#     author = db.author.find_one({'_id':id_})
+#     if author: 
+#        return author['fullname']
+#     else:
+#         print(1111111111111)
+
+
+# register.filter('author', get_author)

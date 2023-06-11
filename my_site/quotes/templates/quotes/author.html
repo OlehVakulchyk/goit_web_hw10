@@ -4,26 +4,29 @@
 
 <form method="POST" action="{% url 'quotes:author' %}">
     {% csrf_token %}
+    <h2>
+        Add Author
+    </h2>
     <div style="padding: 10px">
-        <label> Fullname:
+        <label> Fullname: <br>
             {{ form.fullname }}
         </label>
         <span>{{ form.errors.name }}</span>
     </div>
     <div style="padding: 10px">
-        <label> born date :
+        <label> born date : <br>
             {{ form.born_date }}
         </label>
         <span>{{ form.errors.description }}</span>
     </div>
     <div style="padding: 10px">
-        <label> born_location:
+        <label> born location: <br>
             {{ form.born_location }}
         </label>
         <span>{{ form.errors.description }}</span>
     </div>
     <div style="padding: 10px">
-        <label> description:
+        <label> description: <br>
             {{ form.description }}
         </label>
         <span>{{ form.errors.description }}</span>

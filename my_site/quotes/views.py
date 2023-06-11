@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from bson.objectid import ObjectId
@@ -7,13 +7,13 @@ from bson.objectid import ObjectId
 
 from .forms import TagForm, QuoteForm, AuthorForm
 from .models import Tag, Quote, Author
-from .utils import get_mongodb
+# from .utils import get_mongodb
 
 # Create your views here.
 def main(request, page=1):
-    db = get_mongodb()        # for mongodb
-    quotes = db.quote.find()  # for mongodb
-    # quotes = Quote.objects.all()
+    # db = get_mongodb()        # for mongodb
+    # quotes = db.quote.find()  # for mongodb
+    quotes = Quote.objects.all()
     per_page = 10
     paginator = Paginator(list(quotes), per_page)
     quotes_on_page = paginator.get_page(page)
@@ -73,13 +73,18 @@ def author(request):
             return render(request, 'quotes/author.html', {'form': form})
     return render(request, 'quotes/author.html', {'form': AuthorForm()})
 
-def author_about(request, d=' '):
-    db = get_mongodb()
-    author = db.author.find_one({'_id':ObjectId(d)})
-    # author = Author.objects.get(id=d)
-    # author = get_object_or_404(Author, _id)
-
-    # author = {'fullname': 'full', 'born_date': '13.13.1313',
-    # 'born_location': 'the end',
-    # 'description': 'qwerty'}
+def author_about(request, pk):
+    # db = get_mongodb()
+    # author = db.author.find_one({'_id':ObjectId(d)})
+    author = Author.objects.get(pk=pk)
     return render(request, 'quotes/author_about.html', context={'author': author})
+
+def tag_search(request, _id):
+    tag = Tag.objects.filter(id=_id).first()
+    quotes = Quote.objects.filter(tags=_id).all()
+    per_page = 10
+    paginator = Paginator(list(quotes), per_page)
+    page_number = request.GET.get('page')
+    quotes_on_page = paginator.get_page(page_number)
+    
+    return render(request, 'quotes/tag_search.html', context={'quotes': quotes_on_page, 'tag': tag})

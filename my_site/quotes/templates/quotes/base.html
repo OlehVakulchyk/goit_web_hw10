@@ -21,6 +21,16 @@
             <div class="col-md-4">
                 <p>
                     {% if user.is_authenticated %}
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" >
+                            Added
+                        </button>
+                        <div class="dropdown-content">
+                            <a class="dropdown-item" href="{% url 'quotes:author' %}" target="_blank">Author</a>
+                            <a class="dropdown-item" href="{% url 'quotes:tag' %}" target="_blank">Tag</a>
+                            <a class="dropdown-item" href="{% url 'quotes:quote' %}" target="_blank">Quote</a>
+                        </div>
+                    </div>
                     <a href="{% url 'users:logout' %}" class="btn btn-outline-primary">Logout</a>
                     {% else %}
                     <a href="{% url 'users:signup' %}" class="btn btn-outline-primary">SignUp</a>
